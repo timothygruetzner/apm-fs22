@@ -1,5 +1,9 @@
 # APM Woche 1: Einführung Performance-Analyse & Parallelisierung
 
+## Vorlesungsfolien
+
+[Einführung Performance-Analyse](Einführung Performance-Analyse.pdf)
+
 
 ## Übung
 
