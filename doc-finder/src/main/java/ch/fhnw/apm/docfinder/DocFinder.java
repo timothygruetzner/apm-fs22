@@ -5,7 +5,11 @@ import java.nio.charset.MalformedInputException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import static java.util.Comparator.comparing;
@@ -13,7 +17,6 @@ import static java.util.Comparator.reverseOrder;
 import static java.util.Objects.requireNonNull;
 
 public class DocFinder {
-
     private Path rootDir;
 
     private int maxDepth = Integer.MAX_VALUE;
@@ -25,16 +28,32 @@ public class DocFinder {
     }
 
     public List<Result> findDocs(String searchText) throws IOException {
+        return findDocs(searchText, 1);
+    }
+
+    public List<Result> findDocs(String searchText, int numOfThreads) throws IOException {
         var allDocs = collectDocs();
 
-        var results = new ArrayList<Result>();
+        var results = Collections.synchronizedList(new ArrayList<Result>());
+        ExecutorService service = Executors.newFixedThreadPool(numOfThreads);
         for (var doc : allDocs) {
-            var res = findInDoc(searchText, doc);
-            if (res.totalHits() > 0) {
-                results.add(res);
-            }
+            service.submit(() -> {
+                try {
+                    Result res = findInDoc(searchText, doc);
+                    if (res.totalHits() > 0) {
+                        results.add(res);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
         }
-
+        service.shutdown();
+        try {
+            service.awaitTermination(1, TimeUnit.DAYS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         results.sort(comparing(Result::getRelevance, reverseOrder()));
 
         return results;
