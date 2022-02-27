@@ -112,7 +112,7 @@ dann erneut und suchen Sie nach weiteren Optimierungsmöglichkeiten. Sie
 können Profile auch abspeichern und mehrere Profile miteinander vergleichen! 
 Verwenden Sie dazu die _Snapshot_-Funktion:
 
-![](snapshot.png)
+<img src="snapshot.png" width="400px">
 
 Bereiten Sie für die nächste Lektion eine kleine Zusammenfassung vor mit den 
 wichtigsten Erkenntnissen, kurzen Beschreibungen der vorgenommenen 
