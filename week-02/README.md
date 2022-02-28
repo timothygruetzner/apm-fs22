@@ -2,7 +2,7 @@
 
 ## Vorlesungsfolien
 
-...
+[Performance-Optimierung und Profiling](Performance-Optimierung%20und%20Profiling.pdf)
 
 
 ## Musterlösung Woche 1
