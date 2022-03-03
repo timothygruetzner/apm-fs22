@@ -5,55 +5,61 @@ import java.nio.charset.MalformedInputException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
+import static java.util.Collections.synchronizedList;
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.reverseOrder;
 import static java.util.Objects.requireNonNull;
 
 public class DocFinder {
+
     private Path rootDir;
 
     private int maxDepth = Integer.MAX_VALUE;
     private long sizeLimit = 1_000_000_000; // 1 GB
     private boolean ignoreCase = true;
 
+    private final ExecutorService pool;
+
     public DocFinder(Path rootDir) {
+        this(rootDir, Runtime.getRuntime().availableProcessors());
+    }
+
+    public DocFinder(Path rootDir, int parallelism) {
         this.rootDir = requireNonNull(rootDir);
+        pool = Executors.newFixedThreadPool(parallelism, r -> {
+            var thread = new Thread(r);
+            thread.setDaemon(true);
+            return thread;
+        });
     }
 
     public List<Result> findDocs(String searchText) throws IOException {
-        return findDocs(searchText, 1);
-    }
-
-    public List<Result> findDocs(String searchText, int numOfThreads) throws IOException {
         var allDocs = collectDocs();
 
-        var results = Collections.synchronizedList(new ArrayList<Result>());
-        ExecutorService service = Executors.newFixedThreadPool(numOfThreads);
+        var results = synchronizedList(new ArrayList<Result>());
+
+        var tasks = new ArrayList<Callable<Void>>();
         for (var doc : allDocs) {
-            service.submit(() -> {
-                try {
-                    Result res = findInDoc(searchText, doc);
-                    if (res.totalHits() > 0) {
-                        results.add(res);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+            tasks.add(() -> {
+                var res = findInDoc(searchText, doc);
+                if (res.totalHits() > 0) {
+                    results.add(res);
                 }
+                return null;
             });
         }
-        service.shutdown();
         try {
-            service.awaitTermination(1, TimeUnit.DAYS);
+            pool.invokeAll(tasks);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new AssertionError(e);
         }
+
         results.sort(comparing(Result::getRelevance, reverseOrder()));
 
         return results;
