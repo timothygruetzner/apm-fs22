@@ -146,19 +146,20 @@ Einer davon sollte die Anzahl verwendeter Threads sein. Falls Ihre
 Implementation es nicht zulässt, diese Anzahl zu konfigurieren, erweitern 
 Sie sie entsprechend, oder verwenden Sie die Musterlösung von Woche 1.
 
-Entwerfen Sie ein 2<sup>k</sup>-Experiment, um die Effekte der Faktoren zu 
-bestimmen. Für gewisse Faktoren kann man mit grosser Sicherheit sagen, dass 
-ihr Einfluss _unidirektional_ ist, d. h. dass durch Erhöhen des Levels die 
-Performance stetig steigen oder fallen wird; für diese Faktoren können Sie 
-einfach ein Minimum und Maximum wählen. Für andere Faktoren, wie die Anzahl 
-Threads, ist im Vornherein nicht unbedingt klar, welche Anzahl zur besten 
-Performance führt. Entwerfen Sie dazu ein weiteres "Einen Faktor aufs 
-Mal"-Experiment, das sie als Vorbereitung durchführen und mit dem Sie die 
-ideale Anzahl Threads bestimmen.
+Entwerfen Sie ein 2<sup>k</sup>-Experiment, um die Effekte der Faktoren (auf 
+die Antwortzeit) zu bestimmen. Für gewisse Faktoren kann man mit grosser 
+Sicherheit sagen, dass ihr Einfluss _unidirektional_ ist, d. h. dass durch 
+Erhöhen des Levels die Performance stetig steigen oder fallen wird; für 
+diese Faktoren können Sie einfach ein Minimum und Maximum wählen. Für andere 
+Faktoren, wie die Anzahl Threads, ist im Vornherein nicht unbedingt klar, 
+welche Anzahl zur besten Performance führt. Entwerfen Sie dazu ein weiteres 
+"Einen Faktor aufs Mal"-Experiment, das sie als Vorbereitung durchführen und 
+mit dem Sie die ideale Anzahl Threads bestimmen.
 
-JMH unterstützt Faktoren und faktorielle Experimente "out of the box". Mit 
-folgendem Attribut und der `@Param`-Annotation können Sie z. B. die Anzahl 
-Threads als variablen Faktor des Experiments definieren:
+Führen Sie die Experimente mithilfe von JMH durch. JMH unterstützt Faktoren 
+und faktorielle Experimente "out of the box". Mit folgendem Attribut und der 
+`@Param`-Annotation können Sie z. B. die Anzahl Threads als variablen Faktor 
+des Experiments definieren:
 
 ```java
 @Param({"1", "2", "4", "8"})
@@ -169,3 +170,9 @@ JMH sorgt automatisch dafür, dass die Benchmark-Methode für jedes Level
 dieses Faktors einmal durchgeführt wird und das `threads`-Attribut den 
 entsprechenden Wert enthält. Wenn Sie mehrere Faktoren definieren, werden 
 alle Kombinationen durchgetestet.
+
+Wenn Sie alle Resultate haben, führen Sie die Effekt-Analyse durch. Stellen 
+Sie eine Vorzeichentabelle auf, füllen Sie die durchschnittlichen 
+Antwortzeiten für jede Kombination der Levels ein und berechnen Sie die 
+Effekte und Interaktionen. Beachten Sie, dass jeder Faktor mit jedem anderen 
+interagieren kann und auch alle drei (oder noch mehr).
