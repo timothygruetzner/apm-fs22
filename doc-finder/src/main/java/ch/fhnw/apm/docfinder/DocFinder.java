@@ -1,12 +1,12 @@
 package ch.fhnw.apm.docfinder;
 
 import java.io.IOException;
+import java.nio.charset.MalformedInputException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Stream;
@@ -26,21 +26,17 @@ public class DocFinder {
 
     private final ExecutorService pool;
 
-    private final Map<String, String> cache;
-
     public DocFinder(Path rootDir) {
         this(rootDir, Runtime.getRuntime().availableProcessors());
     }
 
     public DocFinder(Path rootDir, int parallelism) {
-        System.out.printf("Running with %d threads.%n", parallelism);
         this.rootDir = requireNonNull(rootDir);
         pool = Executors.newFixedThreadPool(parallelism, r -> {
             var thread = new Thread(r);
             thread.setDaemon(true);
             return thread;
         });
-        cache = new ConcurrentHashMap<>();
     }
 
     public List<Result> findDocs(String searchText) throws IOException {
@@ -81,24 +77,19 @@ public class DocFinder {
     }
 
     private Result findInDoc(String searchText, Path doc) throws IOException {
-        String normalized = this.cache.computeIfAbsent(doc.toString(), path -> {
-            String content;
-            try {
-                content = Files.readString(Path.of(path));
-            } catch (Exception e) {
-                content = "";
-            }
-
-            String text = content.replaceAll("\\p{javaWhitespace}+", " ");
-            if (ignoreCase) {
-                text = text.toLowerCase(Locale.ROOT);
-            }
-            return text;
-
-        });
+        String text;
+        try {
+            text = Files.readString(doc);
+        } catch (MalformedInputException e) {
+            // in case doc cannot be read as UTF-8, ignore and use empty dummy text
+            text = "";
+        }
 
         // normalize text: collapse whitespace and convert to lowercase
+        var collapsed = text.replaceAll("\\p{javaWhitespace}+", " ");
+        var normalized = collapsed;
         if (ignoreCase) {
+            normalized = collapsed.toLowerCase(Locale.ROOT);
             searchText = searchText.toLowerCase(Locale.ROOT);
         }
 
