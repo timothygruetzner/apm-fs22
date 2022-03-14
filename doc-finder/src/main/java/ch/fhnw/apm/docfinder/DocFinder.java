@@ -85,11 +85,10 @@ public class DocFinder {
             text = "";
         }
 
-        // normalize text: collapse whitespace and convert to lowercase
-        var collapsed = text.replaceAll("\\p{javaWhitespace}+", " ");
-        var normalized = collapsed;
+        // normalize text: convert to lowercase (if wanted)
+        var normalized = text;
         if (ignoreCase) {
-            normalized = collapsed.toLowerCase(Locale.ROOT);
+            normalized = text.toLowerCase(Locale.ROOT);
             searchText = searchText.toLowerCase(Locale.ROOT);
         }
 
