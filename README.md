@@ -7,3 +7,5 @@
 [Woche 3: Experiment-Design & Benchmarking](week-03)
 
 [Woche 4: Datenauswertung & Präsentation](week-04)
+
+[Woche 5: Garbate Collection](week-05)
