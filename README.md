@@ -8,4 +8,4 @@
 
 [Woche 4: Datenauswertung & Präsentation](week-04)
 
-[Woche 5: Garbate Collection](week-05)
+[Woche 5: Garbage Collection](week-05)
