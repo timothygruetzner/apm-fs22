@@ -2,7 +2,7 @@
 
 ## Vorlesungsfolien
 
-[Just-in-time-Kompilieung](w06_jit_compilation.pdf)
+[Just-in-time-Kompilierung](w06_jit_compilation.pdf)
 
 ## Übung
 
