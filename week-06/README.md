@@ -1,4 +1,4 @@
-# APM Woche 11: Just-in-time-Kompilierung
+# APM Woche 6: Just-in-time-Kompilierung
 
 ## Vorlesungsfolien
 
