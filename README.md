@@ -12,4 +12,4 @@
 
 [Woche 6: Just-in-time-Kompilierung](week-06)
 
-[Woche 6: I/O & Buffering](week-07)
+[Woche 7: I/O & Buffering](week-07)
