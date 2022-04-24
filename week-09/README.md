@@ -1,7 +1,7 @@
 # APM Woche 9: Skalierung & Load Balancing
 
 
-[Vorlesungsfolien](Skalierung und Load Balancing.pdf)
+[Vorlesungsfolien](Skalierung%20und%20Load%20Balancing.pdf)
 
 
 ## Übung
