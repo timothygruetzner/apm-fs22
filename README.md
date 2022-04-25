@@ -13,3 +13,5 @@
 [Woche 6: Just-in-time-Kompilierung](week-06)
 
 [Woche 7: I/O & Buffering](week-07)
+
+[Woche 9: Skalierung & Load Balancing](week-09)
