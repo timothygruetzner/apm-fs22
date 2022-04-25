@@ -100,17 +100,22 @@ korrekte Einrückung):
 Die Datei definiert zuerst einen Service 'web-app'. Die Zeile `build: .` 
 bedeutet, dass dieser Service durch das Dockerfile im selben Ordner definiert
 ist. Es werden zwei _Replikas_ dieses Services erstellt, und Docker Compose
-generiert automatisch sinnvolle Hostnamen für sie: 'key-val-store_web-app_1' und
-'key-val-store_web-app_2'. Der Service ist allerdings nicht öffentlich erreichbar, 
-sondern nur in einem Docker-internen Netzwerk. Die Idee dabei ist, dass die 
-Web-App nur via Loadbalancer erreichbar ist.
+generiert automatisch sinnvolle Hostnamen für sie: `key-val-store_web-app_1` und
+`key-val-store_web-app_2`. Vorsicht: Je nach Version von Docker Compose 
+werden statt Underscores normale Bindestriche verwendet, d. h. die Hostnamen 
+lauten `key-val-store-web-app-1` und `key-val-store-web-app-2`.
+
+Der 'web-app'-Service ist allerdings nicht öffentlich erreichbar, sondern 
+nur in einem Docker-internen Netzwerk. Die Idee dabei ist, dass die Web-App 
+nur via Loadbalancer erreichbar ist.
 Der Service 'load-balancer' ist hingegen über den Port 8080 öffentlich 
 erreichbar und wird analog durch ein Dockerfile im Ordner 'load-balancer'
 definiert. Dieses erstellen Sie als nächstes.
 
 Erstellen Sie im Projektordner den Unterordner 'load-balancer' und darin zuerst 
 eine Datei 'nginx.conf', welche die Loadbalancer-Konfigurationen enthält. 
-Fügen Sie folgenden Inhalt ein:
+Fügen Sie folgenden Inhalt ein. (Ändern Sie gegebenenfalls die Underscores 
+in den Hostnamen zu Bindestrichen.)
 
     events {}
     http {
