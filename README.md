@@ -15,3 +15,5 @@
 [Woche 7: I/O & Buffering](week-07)
 
 [Woche 9: Skalierung & Load Balancing](week-09)
+
+[Woche 10: Clustering & High Availability](week-10)

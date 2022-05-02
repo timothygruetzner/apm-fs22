@@ -49,12 +49,12 @@ Benutzer 'spring' ohne Root-Rechte ausgeführt. Erstellen Sie das Image, indem
 Sie folgenden Befehl auf der Kommandozeile aufrufen (dafür muss Docker im
 Hintergrund laufen):
 
-    docker build -t key-value-store .
+    docker build -t key-val-store .
 
-Die Option `-t key-value-store` gibt dem Image einen sinnvollen Namen. Jetzt
+Die Option `-t key-val-store` gibt dem Image einen sinnvollen Namen. Jetzt
 können Sie die App in einem Container starten:
 
-    docker run -it -p 8080:8080 key-value-store
+    docker run -it -p 8080:8080 key-val-store
 
 Die Optionen `-it` sorgen dafür, dass die Kommandozeile mit dem Container
 verknüpft wird und `-p 8080:8080` veröffentlicht den Containerport 8080 mit dem
@@ -100,23 +100,28 @@ korrekte Einrückung):
 Die Datei definiert zuerst einen Service 'web-app'. Die Zeile `build: .` 
 bedeutet, dass dieser Service durch das Dockerfile im selben Ordner definiert
 ist. Es werden zwei _Replikas_ dieses Services erstellt, und Docker Compose
-generiert automatisch sinnvolle Hostnamen für sie: 'key-value-store_web-app_1' und
-'key-value-store_web-app_2'. Der Service ist allerdings nicht öffentlich erreichbar, 
-sondern nur in einem Docker-internen Netzwerk. Die Idee dabei ist, dass die 
-Web-App nur via Loadbalancer erreichbar ist.
+generiert automatisch sinnvolle Hostnamen für sie: `key-val-store_web-app_1` und
+`key-val-store_web-app_2`. Vorsicht: Je nach Version von Docker Compose 
+werden statt Underscores normale Bindestriche verwendet, d. h. die Hostnamen 
+lauten `key-val-store-web-app-1` und `key-val-store-web-app-2`.
+
+Der 'web-app'-Service ist allerdings nicht öffentlich erreichbar, sondern 
+nur in einem Docker-internen Netzwerk. Die Idee dabei ist, dass die Web-App 
+nur via Loadbalancer erreichbar ist.
 Der Service 'load-balancer' ist hingegen über den Port 8080 öffentlich 
 erreichbar und wird analog durch ein Dockerfile im Ordner 'load-balancer'
 definiert. Dieses erstellen Sie als nächstes.
 
 Erstellen Sie im Projektordner den Unterordner 'load-balancer' und darin zuerst 
 eine Datei 'nginx.conf', welche die Loadbalancer-Konfigurationen enthält. 
-Fügen Sie folgenden Inhalt ein:
+Fügen Sie folgenden Inhalt ein. (Ändern Sie gegebenenfalls die Underscores 
+in den Hostnamen zu Bindestrichen.)
 
     events {}
     http {
         upstream web-app {
-            server key-value-store_web-app_1:8080;
-            server key-value-store_web-app_2:8080;
+            server key-val-store_web-app_1:8080;
+            server key-val-store_web-app_2:8080;
         }
         server {
             listen 8080;
@@ -163,9 +168,9 @@ Docker Compose macht es Ihnen einfach, diese Änderung zu deployen:
 
     docker-compose up --build
 
-Dieser Befehl builded beide Docker-Images neu (nur die geänderten Teile), 
+Dieser Befehl buildet beide Docker-Images neu (nur die geänderten Teile), 
 stoppt die laufenden Services und startet sie mit den neuen Images wieder. 
-Jetzt sollten Ihre Anfragen immer auf dem selben Server landen.
+Jetzt sollten Ihre Anfragen immer auf demselben Server landen.
 
 Die Docker-Unterstützung von IntelliJ beinhaltet übrigens ein grafisches 
 Interface, um solche Docker- oder Docker-Compose-Befehle auszuführen; Sie finden
@@ -192,5 +197,5 @@ IntelliJ um laufende Container aufzulisten und einzelne davon zu stoppen
 oder wieder zu starten:
 
     docker ps
-    docker stop key-value-store_web-app_1
-    docker start key-value-store_web-app_1
+    docker stop key-val-store_web-app_1
+    docker start key-val-store_web-app_1
