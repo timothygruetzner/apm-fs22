@@ -188,6 +188,8 @@ Informieren Sie sich in der
 [Dokumentation](https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/#passive-health-checks)
 über die Konfigurationsmöglichkeiten und stellen Sie das Monitoring so ein, 
 dass ein Server bereits nach 3 Sekunden als nicht verfügbar markiert wird.
+(Beachten Sie, dass wir die "Nicht-Plus"-Version von NGINX verwenden; dadurch 
+sind aktive Health-Checks leider nicht möglich.)
 
 Starten Sie die Applikation neu und überprüfen Sie, dass die Fehlertoleranz 
 funktioniert, indem Sie abwechslungsweise einen der Web-Server stoppen und 
