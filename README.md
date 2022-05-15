@@ -17,3 +17,5 @@
 [Woche 9: Skalierung & Load Balancing](week-09)
 
 [Woche 10: Clustering & High Availability](week-10)
+
+[Woche 11: Performance Testing im Web](week-11)
