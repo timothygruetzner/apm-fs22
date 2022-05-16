@@ -1,4 +1,4 @@
-# APM Woche 2: Clustering & High Availability
+# APM Woche 10: Clustering & High Availability
 
 
 [Vorlesungsfolien](Clustering%20und%20High%20Availability.pdf)
@@ -49,7 +49,7 @@ Services-Tab unter Docker auf den Loadbalancer-Container rechtsklicken und
 "Create Terminal auswählen". Auf der Kommandozeile können Sie stattdessen 
 folgenden Befehl verwenden:
 
-    docker exec -it apm-app_load-balancer_1 bash
+    docker exec -it key-val-store_load-balancer_1 bash
 
 Wenn Sie verbunden sind, geben Sie folgenden Befehl ein, um zu überprüfen, 
 dass keepalived installiert wurde:
