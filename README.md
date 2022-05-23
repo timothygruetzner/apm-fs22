@@ -19,3 +19,5 @@
 [Woche 10: Clustering & High Availability](week-10)
 
 [Woche 11: Performance Testing im Web](week-11)
+
+[Woche 12: Caching](week-12)
