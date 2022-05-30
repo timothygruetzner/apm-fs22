@@ -122,7 +122,7 @@ ersetzen den Pod-Namen mit einem vorher angezeigten:
 
 Sie sollten die bekannte Ausgabe von Spring Boot sehen. Die beiden Instanzen
 sollten sich auch gegenseitig gefunden haben und dem gleichen Hazelcast-Cluster
-beigetreten sein (siehe [Übung 3](../week-11)). Die App-Instanzen laufen in
+beigetreten sein (siehe [Übung 11](../week-11)). Die App-Instanzen laufen in
 normalen Docker-Containern, welche mit dem bekannten Docker-Befehl angezeigt
 werden können:
 
